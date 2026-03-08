@@ -1,0 +1,157 @@
+[theme]
+   primaryColor = "#1f77b4"
+   backgroundColor = "#ffffff"
+   secondaryBackgroundColor = "#f0f2f6"
+   textColor = "#262730"
+   font = "sans serif"
+
+   [server]
+   maxUploadSize = 200
+   enableXsrfProtection = true
+   enableCORS = false
+
+   [browser]
+   gatherUsageStats = false
+```
+
+4. **Scroll down**, click **"Commit changes"** (green button)
+
+✅ **CHECKPOINT:** You should now see a folder called `.streamlit` with `config.toml` inside
+
+---
+
+## ✅ PART 4: Verify Everything is Ready
+
+### Step 9: Check Your Repository
+
+Go to your repository main page and verify you see:
+```
+corporate-forecast-engine/
+├── .streamlit/
+│   └── config.toml                           ✓
+├── Corp_Forecast_Engine_DEMO.py              ✓
+├── streamlit_app.py                          ✓
+├── requirements.txt                          ✓
+├── INPUT_Hotel_Master_Data_2026.xlsx         ✓
+├── INPUT_Payroll_Data_2026.xlsx              ✓
+├── INPUT_Trial_Balance_CORP_2024.xlsx        ✓
+├── INPUT_Trial_Balance_CORP_2025.xlsx        ✓
+├── INPUT_Trial_Balance_CORP_2026.xlsx        ✓
+├── INPUT_Budget_Data_2026.xlsx               ✓
+├── INPUT_Simplified_Expenses_2026.xlsx       ✓
+├── INPUT_Revenue_Forecast_2026.xlsx          ✓
+└── README.md                                 ✓
+```
+
+**Branch:** Should show `main` (top left)
+
+✅ **GitHub setup is COMPLETE!**
+
+---
+
+## 🌐 PART 5: Deploy to Streamlit Cloud
+
+### Step 10: Sign Up for Streamlit Cloud
+
+1. **Open a new tab**, go to: **https://share.streamlit.io**
+
+2. **Click "Sign up"** or **"Continue with GitHub"**
+
+3. **Authorize Streamlit:**
+   - You'll see a GitHub authorization page
+   - Click **"Authorize streamlit"** (green button)
+   - May need to enter your GitHub password
+
+4. **You're logged in!** You should see the Streamlit Cloud dashboard
+
+### Step 11: Create New App
+
+1. **Click "New app"** (big blue button)
+
+2. **You'll see a deployment form**
+
+### Step 12: Fill Out Deployment Form
+
+**EXACTLY fill in these fields:**
+```
+Repository:
+YOUR-USERNAME/corporate-forecast-engine
+```
+(Start typing and it should autocomplete)
+```
+Branch:
+main
+```
+⚠️ **Make sure it's `main` not `master`!**
+```
+Main file path:
+streamlit_app.py
+```
+
+**App URL (optional):**
+```
+Leave default or customize
+Example: forecast-engine.streamlit.app
+```
+
+### Step 13: Deploy!
+
+1. **Click "Deploy!"** (big blue button)
+
+2. **You'll see the deployment screen** with logs:
+```
+   Preparing environment...
+   Installing requirements...
+   Running streamlit_app.py...
+```
+
+3. **Wait 2-5 minutes** - Don't close the tab!
+
+4. **When you see:**
+```
+   ✅ Your app is running!
+```
+
+5. **Your app URL** will be shown at the top
+
+---
+
+## 🎉 PART 6: Test Your App
+
+### Step 14: Open and Test
+
+1. **Click the app URL** (or it may open automatically)
+
+2. **You should see:**
+   - Header: "📊 Corporate Forecast Engine"
+   - Sidebar with download buttons
+   - Three tabs: Upload Data, Configure, Generate Forecast
+
+3. **Quick test:**
+   - Go to sidebar
+   - Click "📥 Hotel Master Data" to download sample
+   - Go to "Upload Data" tab
+   - Upload the file you just downloaded
+   - Should say "✓ Uploaded: INPUT_Hotel_Master_Data_2026.xlsx"
+
+✅ **SUCCESS!** Your app is live!
+
+---
+
+## 📋 Common Issues and Fixes
+
+### Issue 1: "This branch does not exist"
+
+**Fix:** Make sure you typed `main` (not `master`) in the Branch field
+
+### Issue 2: "File not found: streamlit_app.py"
+
+**Fix:** Verify `streamlit_app.py` is in the root of your repository (not in a subfolder)
+
+### Issue 3: "Module not found"
+
+**Fix:** Make sure `requirements.txt` was uploaded and contains:
+```
+streamlit>=1.28.0
+pandas>=2.0.0
+openpyxl>=3.1.0
