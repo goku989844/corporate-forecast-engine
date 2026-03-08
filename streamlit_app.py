@@ -8,6 +8,7 @@ import pandas as pd
 import io
 import os
 import sys
+import importlib.util
 from datetime import datetime
 import tempfile
 import shutil
@@ -70,18 +71,43 @@ st.markdown("""
 # Import the forecast engine (will be imported after file is created)
 def import_forecast_engine():
     """Import the forecast engine module"""
+    import importlib.util
+    
     try:
-        # Add current directory to path
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        if current_dir not in sys.path:
-            sys.path.insert(0, current_dir)
+        # Method 1: Try direct import
+        try:
+            from Corp_Forecast_Engine_DEMO import CorpForecastEngine
+            return CorpForecastEngine
+        except ImportError:
+            pass
         
-        # Import the DEMO version
-        from Corp_Forecast_Engine_DEMO import CorpForecastEngine
-        return CorpForecastEngine
-    except ImportError as e:
-        st.error(f"Error importing forecast engine: {e}")
+        # Method 2: Try with spec_from_file_location
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        engine_file = os.path.join(current_dir, 'Corp_Forecast_Engine_DEMO.py')
+        
+        if os.path.exists(engine_file):
+            spec = importlib.util.spec_from_file_location("Corp_Forecast_Engine_DEMO", engine_file)
+            if spec and spec.loader:
+                module = importlib.util.module_from_spec(spec)
+                sys.modules['Corp_Forecast_Engine_DEMO'] = module
+                spec.loader.exec_module(module)
+                return module.CorpForecastEngine
+        
+        # Method 3: Check if file exists and show helpful error
+        st.error("❌ Cannot import forecast engine")
+        st.error(f"Looking for file at: {engine_file}")
+        st.error(f"File exists: {os.path.exists(engine_file)}")
+        
+        if os.path.exists(current_dir):
+            files = os.listdir(current_dir)
+            st.error(f"Files in directory: {files}")
+        
         st.info("Please ensure Corp_Forecast_Engine_DEMO.py is in the same directory as this app.")
+        return None
+        
+    except Exception as e:
+        st.error(f"Error importing forecast engine: {e}")
+        st.exception(e)
         return None
 
 # Header
